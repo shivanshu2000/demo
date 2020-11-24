@@ -1,0 +1,32 @@
+<%- include('./partials/head.ejs') %> 
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+<% if(details.length>0) {%> 
+    <h2 class="ml-4"><%=details.length%> results found for "<strong><%=item  %></strong>" </h2>
+    <% details.forEach(detail => { %>
+        <div class="container">
+            <div class="row mt-4">
+                <div class="card col-sm-12" style="width: 20rem;">
+                    <div class="card-body">
+                        <h4 class="card-title"><%= detail.name %> </h4>
+                        <% if(detail.purpose==='Recommending'){%>
+                           <h6 class="mt-3 card-subtitle text-muted">Recommending: <%=detail.job %> </h6> 
+                        <% } %>  
+        
+                        <% if(detail.purpose==='Looking For'){%>
+                            <h6 class="mt-3 card-subtitle text-muted">Looking For: <%=detail.job %> </h6> 
+                         <% } %>  
+                         <h6 class="mt-2 card-subtitle text-muted"><strong>Location</strong>: <%=detail.location %> </h6> 
+
+                        <p class="font-italic mt-3 card-text"><%=detail.about%> </p>
+                    </div>
+                </div>
+            </div>
+       
+        
+    </div>
+    <% }) %> 
+<% } else{ %>
+    <h2 class="ml-4">No results found for "<strong><%=item  %></strong>" </h2>
+<% } %> 
+    <%- include('./partials/end.ejs')  %> 
