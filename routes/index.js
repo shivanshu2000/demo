@@ -42,7 +42,7 @@ router.post("/search", async (req, res, next) => {
     if (detail.location.toLowerCase().includes(search.toLowerCase().trim())) {
       return true;
     } else if (
-      detail.name.toLowerCase().includes(search.toLowerCase()).trim()
+      detail.name.toLowerCase().includes(search.toLowerCase().trim())
     ) {
       return true;
     } else {
