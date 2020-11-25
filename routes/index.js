@@ -41,7 +41,9 @@ router.post("/search", async (req, res, next) => {
   const filtered = details.filter((detail) => {
     if (detail.location.toLowerCase().includes(search.toLowerCase().trim())) {
       return true;
-    } else if (detail.name.toLowerCase().includes(search.toLowerCase())) {
+    } else if (
+      detail.name.toLowerCase().includes(search.toLowerCase()).trim()
+    ) {
       return true;
     } else {
       return false;
