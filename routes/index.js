@@ -35,26 +35,49 @@ router.post("/add", async (req, res, next) => {
 });
 
 router.post("/search", async (req, res, next) => {
-  const search = req.body.search;
-  console.log(search);
-  const details = await Details.find();
-  const filtered = details.filter((detail) => {
-    if (detail.location.toLowerCase().includes(search.toLowerCase().trim())) {
-      return true;
-    } else if (
-      detail.name.toLowerCase().includes(search.toLowerCase().trim())
-    ) {
-      return true;
-    } else {
+  let search = req.body.search.trim();
+  search = search.split(" ");
+  // console.log(search);
+  // console.log(search.length);
+
+  filteredSearch = search.filter((item) => {
+    if (item === "") {
       return false;
+    } else {
+      return true;
     }
   });
+
+  console.log(filteredSearch);
+
+  const details = await Details.find();
+  const filtered = details.filter((detail) => {
+    for (let i = 0; i < filteredSearch.length; i++) {
+      if (
+        detail.location
+          .toLowerCase()
+          .includes(filteredSearch[i].trim().toLowerCase())
+      ) {
+        return true;
+      } else if (
+        detail.name
+          .toLowerCase()
+          .includes(filteredSearch[i].trim().toLowerCase())
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+  // console.log(search);
+  // console.log(filtered);
 
   const length = filtered.length;
 
   res.render("search", {
     details: filtered,
-    item: search,
+    item: search.join(" "),
     length,
   });
   // console.log(filtered);

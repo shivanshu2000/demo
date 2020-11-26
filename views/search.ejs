@@ -1,6 +1,8 @@
 <%- include('./partials/head.ejs') %> 
 <body>
     <%- include('./partials/nav.ejs')  %> 
+
+
 <% if(details.length>0) {%> 
     <h2 class="ml-4"><%=details.length%> results found for "<strong><%=item  %></strong>" </h2>
     <% details.forEach(detail => { %>
@@ -26,7 +28,12 @@
         
     </div>
     <% }) %> 
-<% } else{ %>
+<% } else if(details.length==0){ %>
+    <h2 class="ml-4">Please enter a valid search, search either by user's name or location</h2>
+<% }else{ %>
+    
     <h2 class="ml-4">No results found for "<strong><%=item  %></strong>" </h2>
 <% } %> 
     <%- include('./partials/end.ejs')  %> 
+
+      
