@@ -52,19 +52,15 @@ router.post("/search", async (req, res, next) => {
   try {
     for (let i = 0; i < filteredSearch.length; i++) {
       if (!nameArray.length > 0) {
-        nameArray = [
-          ...(await Details.find({
-            name: { $regex: filteredSearch[i], $options: "i" },
-          })),
-        ];
+        nameArray = await Details.find({
+          name: { $regex: filteredSearch[i], $options: "i" },
+        });
       }
 
       if (!locationArray.length > 0) {
-        locationArray = [
-          ...(await Details.find({
-            location: { $regex: filteredSearch[i], $options: "i" },
-          })),
-        ];
+        locationArray = await Details.find({
+          location: { $regex: filteredSearch[i], $options: "i" },
+        });
       }
     }
 
