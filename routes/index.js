@@ -57,13 +57,14 @@ router.post("/search", async (req, res, next) => {
         });
       }
 
-      if (!locationArray.length > 0) {
-        locationArray = await Details.find({
-          location: { $regex: filteredSearch[i], $options: "i" },
-        });
+      if (!nameArray.length > 0) {
+        if (!locationArray.length > 0) {
+          locationArray = await Details.find({
+            location: { $regex: filteredSearch[i], $options: "i" },
+          });
+        }
       }
     }
-
     console.log(nameArray);
     console.log(locationArray);
 
