@@ -37,9 +37,6 @@ router.post("/add", async (req, res, next) => {
 router.post("/search", async (req, res, next) => {
   let search = req.body.search.trim();
   search = search.split(" ");
-  // console.log(search);
-  // console.log(search.length);
-
   filteredSearch = search.filter((item) => {
     if (item === "") {
       return false;
@@ -47,40 +44,33 @@ router.post("/search", async (req, res, next) => {
       return true;
     }
   });
-
   console.log(filteredSearch);
+  let searchedArray;
+  let nameArray;
+  let locationArray;
 
-  const details = await Details.find();
-  const filtered = details.filter((detail) => {
+  try {
     for (let i = 0; i < filteredSearch.length; i++) {
-      if (
-        detail.location
-          .toLowerCase()
-          .includes(filteredSearch[i].trim().toLowerCase())
-      ) {
-        return true;
-      } else if (
-        detail.name
-          .toLowerCase()
-          .includes(filteredSearch[i].trim().toLowerCase())
-      ) {
-        return true;
+      searchedArray = await Details.find({
+        name: { $regex: filteredSearch[i], $options: "i" },
+      });
+
+      if (searchedArray.length === 0) {
+        searchedArray = await Details.find({
+          location: { $regex: filteredSearch[i], $options: "i" },
+        });
       }
     }
 
-    return false;
-  });
-  // console.log(search);
-  // console.log(filtered);
+    console.log(searchedArray);
 
-  const length = filtered.length;
-
-  res.render("search", {
-    details: filtered,
-    item: search.join(" "),
-    length,
-  });
-  // console.log(filtered);
+    res.render("search", {
+      details: searchedArray,
+      item: search.join(" "),
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;
